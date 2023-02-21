@@ -1,4 +1,4 @@
-package org.example;
+package org.mealy;
 
 import de.learnlib.api.SUL;
 
@@ -7,14 +7,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class CppProgramSUL implements SUL<String, Boolean> {
+public class CppMealyProgramSUL implements SUL<String, String> {
     private Process process;
     private BufferedReader inputReader;
     private BufferedReader errorReader;
 
     private String command;
 
-    public CppProgramSUL(String command) throws IOException {
+    public CppMealyProgramSUL(String command) throws IOException {
         this.command = command;
     }
 
@@ -24,9 +24,9 @@ public class CppProgramSUL implements SUL<String, Boolean> {
     }
 
     @Override
-    public Boolean step(String input) {
+    public String step(String input) {
         try {
-            List<String> list = new ArrayList<>();
+            List<String> list = new ArrayList<String>();
             list.add(command);
             list.add(input);
             ProcessBuilder build = new ProcessBuilder(list);
@@ -41,14 +41,8 @@ public class CppProgramSUL implements SUL<String, Boolean> {
 
             // read the program's output
             String output = inputReader.readLine();
-            System.out.print(output);
-            // check if the output is "Yes"
-            if (output.equals("Yes")) {
-                return true;
-            } else {
-                System.out.println("Hit false case..");
-                return false;
-            }
+            return output;
+
         } catch (IOException e) {
             throw new RuntimeException("Error communicating with C++ program", e);
         }
@@ -74,5 +68,10 @@ public class CppProgramSUL implements SUL<String, Boolean> {
         } catch (IOException e) {
             throw new RuntimeException("Error closing streams and terminating C++ program", e);
         }
+    }
+
+    @Override
+    public boolean canFork() {
+        return false;
     }
 }
