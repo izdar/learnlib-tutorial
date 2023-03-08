@@ -57,9 +57,9 @@ public class Main {
         Word<String> suffixesWord = suffixes.toWord();
         List<Word<String>> t = new ArrayList<>(1);
         t.add(suffixesWord);
- //      create a LearnLib L* DFA learner
-        ExtensibleLStarMealy<String, String> learner = new ExtensibleLStarMealyBuilder<String,String>().withAlphabet(inputs).withOracle(membershipOracle).create();
-        EquivalenceOracle<MealyMachine<?,String,?,String>, String,Word<String>> eqOracle = new MealyRandomWordsEQOracle<>(membershipOracle,0,5,100);
+        //      create a LearnLib L* DFA learner
+        ExtensibleLStarMealy<String, String> learner = new ExtensibleLStarMealyBuilder<String, String>().withAlphabet(inputs).withOracle(membershipOracle).create();
+        EquivalenceOracle<MealyMachine<?, String, ?, String>, String, Word<String>> eqOracle = new MealyWMethodEQOracle<>(membershipOracle, 0, 5, 100);
 
 //        Experiment.MealyExperiment<String, String> experiment = new Experiment.MealyExperiment<String, String>(learner, eqOracle,inputs);
         // turn on time profiling
@@ -72,7 +72,7 @@ public class Main {
 
         MealyMachine<?, String, ?, String> hypothesis = learner.getHypothesisModel();
 
-        while(learning) {
+        while (learning) {
             // Write outputs
             // Search counter-example
             SimpleProfiler.start("Searching for counter-example");
@@ -81,14 +81,13 @@ public class Main {
             System.out.println(round);
             SimpleProfiler.stop("Searching for counter-example");
 
-            if(counterExample == null) {
+            if (counterExample == null) {
                 // No counter-example found, so done learning
                 learning = false;
 
                 // Write outputs
                 //writeAutModel(hypothesis, alphabet, config.output_dir + "/learnedModel.aut");
-            }
-            else {
+            } else {
                 // Counter example found, update hypothesis and continue learning
 
                 round.increment();
@@ -100,36 +99,33 @@ public class Main {
                 learner.refineHypothesis(counterExample);
                 hypothesis = learner.getHypothesisModel();
             }
-
-            if ((round.getCount() % 100) == 0) {
+        }
 //                new ObservationTableASCIIWriter<>().write(learner.getObservationTable(), System.out);
 //
 //                OTUtils.displayHTMLInBrowser(learner.getObservationTable());
-                        // get learned model
-                MealyMachine<?, String, ?, String> result = learner.getHypothesisModel();
+        // get learned model
+        MealyMachine<?, String, ?, String> result = learner.getHypothesisModel();
 
-                // report results
-                System.out.println("-------------------------------------------------------");
+        // report results
+        System.out.println("-------------------------------------------------------");
 
-                // profiling
-                System.out.println(SimpleProfiler.getResults());
+        // profiling
+        System.out.println(SimpleProfiler.getResults());
 
-                // learning statistics
+        // learning statistics
         //        System.out.println(learner.getRounds().getSummary());
         //        System.out.println(mqOracle.getStatisticalData().getSummary());
 
-                // model statistics
-                System.out.println("States: " + result.size());
-                System.out.println("Sigma: " + inputs.size());
+        // model statistics
+        System.out.println("States: " + result.size());
+        System.out.println("Sigma: " + inputs.size());
 
-                // show model
-                System.out.println();
-                System.out.println("Model: ");
-                GraphDOT.write(result, inputs, System.out); // may throw IOException!
+        // show model
+        System.out.println();
+        System.out.println("Model: ");
+        GraphDOT.write(result, inputs, System.out); // may throw IOException!
 
-                Visualization.visualize(result, inputs);
-            }
-        }
+        Visualization.visualize(result, inputs);
         new ObservationTableASCIIWriter<>().write(learner.getObservationTable(), System.out);
 
 //        OTUtils.displayHTMLInBrowser(learner.getObservationTable());
