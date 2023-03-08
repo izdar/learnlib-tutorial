@@ -100,9 +100,6 @@ public class Main {
                 hypothesis = learner.getHypothesisModel();
             }
         }
-//                new ObservationTableASCIIWriter<>().write(learner.getObservationTable(), System.out);
-//
-//                OTUtils.displayHTMLInBrowser(learner.getObservationTable());
         // get learned model
         MealyMachine<?, String, ?, String> result = learner.getHypothesisModel();
 
@@ -128,47 +125,7 @@ public class Main {
         Visualization.visualize(result, inputs);
         new ObservationTableASCIIWriter<>().write(learner.getObservationTable(), System.out);
 
-//        OTUtils.displayHTMLInBrowser(learner.getObservationTable());
         //------------------------------------------------
-
-//
-//        experiment.setProfile(true);
-//
-//        // enable logging of models
-//        experiment.setLogModels(true);
-//        // run experiment
-//        experiment.run();
-//
-//        // get learned model
-//        MealyMachine<?, String, ?, String> result = experiment.getFinalHypothesis();
-//
-//        // report results
-//        System.out.println("-------------------------------------------------------");
-//
-//        // profiling
-//        System.out.println(SimpleProfiler.getResults());
-//
-//        // learning statistics
-//        System.out.println(experiment.getRounds().getSummary());
-////        System.out.println(mqOracle.getStatisticalData().getSummary());
-//
-//        // model statistics
-//        System.out.println("States: " + result.size());
-//        System.out.println("Sigma: " + inputs.size());
-//
-//        // show model
-//        System.out.println();
-//        System.out.println("Model: ");
-//        GraphDOT.write(result, inputs, System.out); // may throw IOException!
-//
-//        Visualization.visualize(result, inputs);
-//
-//        System.out.println("-------------------------------------------------------");
-//
-//        System.out.println("Final observation table:");
-//        new ObservationTableASCIIWriter<>().write(learner.getObservationTable(), System.out);
-//
-//        OTUtils.displayHTMLInBrowser(learner.getObservationTable());
 
 
     }
