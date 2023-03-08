@@ -41,10 +41,4 @@ public class CppProgramMembershipOracle implements MembershipOracle.DFAMembershi
             query.answer(oracle.answerQuery(obj).getSymbol(0));
         }
     }
-
-//    @Override
-    public boolean isCounterexample(Word<String> word, Boolean output, DFA<?, String> hypothesis, Alphabet<String> alphabet) {
-        return !hypothesis.accepts(word) == output;
-    }
-
 }

@@ -29,10 +29,11 @@ public class CppMealyProgramSUL implements SUL<String, String> {
             List<String> list = new ArrayList<String>();
             list.add(command);
             list.add(input);
+//            System.out.println("Sending input: "+input);
             ProcessBuilder build = new ProcessBuilder(list);
-            System.out.println(build.command());
+//            System.out.println(build.command());
             process = build.start();
-            System.out.println("Started program");
+//            System.out.println("Started program");
             inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
